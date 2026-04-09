@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Add the current directory to path so we can import our services
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from services.rag_engine import rag_engine
@@ -18,7 +18,6 @@ if __name__ == "__main__":
         rag_engine.ingest_pdf(PDF_PATH)
         print("Success: Clinical Knowledge Base initialized.")
         
-        # Test Query
         test_result = rag_engine.query_marker("ALT")
         print(f"Test Retrieval [ALT]: {test_result}")
         

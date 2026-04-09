@@ -40,7 +40,7 @@ const App: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isVerifying, setIsVerifying] = useState(isAuthenticated);
 
-  // Global Session Validation
+  // Let's make sure the user's session is still active and valid every time the app loads
   React.useEffect(() => {
     const validateSession = async () => {
       if (!isAuthenticated || !token) {
@@ -72,7 +72,7 @@ const App: React.FC = () => {
     return <AuthPortal onSuccess={() => setPhase('upload')} />;
   }
 
-  // Get remaining biomarkers (skip the first one used by CholesterolHero)
+  // We'll highlight the biggest metric (like cholesterol) in our hero card, so let's separate that one out
   const results = clinicalData?.results || [];
   const heroMarkerIndex = results.findIndex(
     m => m.name.toLowerCase().includes('cholesterol') || m.name.toLowerCase().includes('ldl')
@@ -97,7 +97,7 @@ const App: React.FC = () => {
       />
 
       <main className="flex-1 flex flex-col relative overflow-hidden">
-        {/* Mobile Header */}
+        {/* Our clean, minimal header for folks checking their stats on the go */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-outline-variant bg-surface/80 backdrop-blur-md z-30">
           <div className="flex items-center gap-2">
             <HeartPulse className="w-6 h-6 text-primary" />
@@ -150,7 +150,7 @@ const App: React.FC = () => {
                 </header>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 pb-24 md:pb-8">
-                  {/* Row 1: Primary Marker Hero & AI Insight */}
+                  {/* The top section: Our star metric and the AI's personalized medical summary */}
                   <motion.div variants={itemVariants} className="md:col-span-2">
                     <CholesterolHero />
                   </motion.div>
@@ -159,7 +159,7 @@ const App: React.FC = () => {
                     <ClinicalInsight />
                   </motion.div>
                   
-                  {/* Row 2: Morning Routine & Dynamic Metric Cards */}
+                  {/* The bottom section: Actionable daily advice and the rest of the lab numbers */}
                   <motion.div variants={itemVariants}>
                     <MorningRoutine />
                   </motion.div>
@@ -194,7 +194,7 @@ const App: React.FC = () => {
                     )}
                   </motion.div>
 
-                  {/* Extra markers if more than 2 others */}
+                  {/* And if there's any other metrics we haven't shown yet, stack them here */}
                   {otherMarkers.length > 2 && otherMarkers.slice(2).map((marker) => (
                     <motion.div variants={itemVariants} key={marker.id}>
                       <MetricCard 
@@ -207,7 +207,7 @@ const App: React.FC = () => {
                     </motion.div>
                   ))}
 
-                  {/* Integration Card */}
+                  {/* A little teaser for future features we're planning */}
                   <motion.div variants={itemVariants} className="glass-card p-6 md:p-8 flex flex-col justify-center items-center gap-4 bg-primary/5 border-dashed md:col-span-2 lg:col-span-1 min-h-[200px]">
                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center animate-bounce">
                       <span className="text-primary font-bold">+</span>
@@ -223,7 +223,7 @@ const App: React.FC = () => {
         <StatusBar />
       </main>
 
-      {/* Dynamic Background Noise */}
+      {/* Adding a subtle texture to the background to give it that premium, tactile feel */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
     </div>
   );

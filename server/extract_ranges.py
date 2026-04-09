@@ -1,7 +1,7 @@
 import pdfplumber
 import os
 
-# Use absolute path for reliability
+
 pdf_path = r"D:\Clinical Futurism\laboratory-reference-ranges.pdf"
 
 if os.path.exists(pdf_path):
@@ -11,7 +11,7 @@ if os.path.exists(pdf_path):
             full_text += page.extract_text() + "\n"
         
         print("--- PDF CONTENT START ---")
-        print(full_text[:2000] + "...") # Print first 2000 chars to understand structure
+        print(full_text[:2000] + "...") 
         print("--- PDF CONTENT END ---")
 else:
     print(f"Error: {pdf_path} not found.")

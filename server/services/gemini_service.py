@@ -7,7 +7,7 @@ import io
 import pdfplumber
 import requests
 
-# Load .env from the server directory regardless of cwd
+# Ensure we always find the .env file, even if we start the server from a different directory
 _env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(_env_path)
 
@@ -19,7 +19,7 @@ class GeminiService:
         self.client = genai.Client(api_key=api_key)
         self.model_id = "gemini-2.5-flash"
 
-        # OpenRouter API Key
+        # We're using OpenRouter alongside Gemini for interpretation, let's grab that key
         self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
         if not self.openrouter_api_key:
             raise ValueError("OPENROUTER_API_KEY not found in environment")
@@ -69,6 +69,7 @@ class GeminiService:
 
             return response.text
         except Exception as e:
+            # If something goes wrong during extraction, we want to know exactly what happened
             print(f"Gemini parse error: {str(e)}")
             raise
 
@@ -130,7 +131,8 @@ class GeminiService:
 
         try:
             response_text = self.call_openrouter(prompt)
-            return response_text  # SAME OUTPUT FORMAT (string JSON)
+            # We expect the output to be a plain JSON string, just like the prompt asks for
+            return response_text
         except Exception as e:
             print(f"OpenRouter interpret error: {str(e)}")
             raise

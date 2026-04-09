@@ -13,12 +13,12 @@ from .services.rag_engine import rag_engine
 from .services.gemini_service import gemini_service
 from .services.safety_service import scoring_service, watchdog
 
-# Initialize Database
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Don't Panic Clinical API")
 
-# Configure CORS for Vite
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -31,13 +31,12 @@ app.add_middleware(
 def health_check():
     return {"status": "Zen Neutral", "neural_core": "Staged (98.4%)"}
 
-# --- Auth Models ---
-
+# The shapes for the authentication data that comes in from the React portal
 class AuthRequest(BaseModel):
     email: str
     password: str
 
-# --- Auth Routes ---
+# Endpoints handling user registration and token generation
 
 @app.post("/api/auth/signup")
 def signup(auth: AuthRequest, db: Session = Depends(get_db)):
@@ -77,7 +76,7 @@ def get_me(db: Session = Depends(get_db), token_data: dict = Depends(auth_utils.
         
     return {"email": user.email}
 
-# --- Auth Dependency ---
+# A handy dependency to grab the currently logged-in user from the JWT
 
 def get_current_user(db: Session = Depends(get_db), token: str = Depends(auth_utils.decode_access_token)):
     if token is None:
@@ -91,7 +90,7 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(auth_ut
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-# --- Clinical Routes ---
+# The core feature endpoints where the actual clinical processing happens
 
 @app.post("/api/neutralize")
 async def neutralize_lab(
@@ -100,18 +99,20 @@ async def neutralize_lab(
     db: Session = Depends(get_db)
 ):
     """
-    The main clinical neutralization protocol.
-    Parses, analyzes, scores, and interprets lab results.
+    Kicks off the main process. We read the uploaded file, ask Gemini to parse it, 
+    pull relevant clinical context from our local RAG database, and finally 
+    have Gemini interpret everything in a calm, informative tone.
     """
     content = await file.read()
     
-    # 1. Parsing Phase
+    # Step 1: Figure out what's in the uploaded document
     print(f"Beginning synthesis for user: {current_user.email}")
     try:
         raw_results_json = await gemini_service.parse_lab_report(content, file.content_type)
         print(f"Raw Gemini Output: {raw_results_json}")
         
-        # Handle cases where gemini returns text wrapped in markdown
+        
+        # Sometimes the AI wraps its json response in markdown blocks, let's pull just the array out
         json_match = re.search(r'\[.*\]', raw_results_json, re.DOTALL)
         if json_match:
             biomarkers = json.loads(json_match.group())
@@ -119,27 +120,26 @@ async def neutralize_lab(
             biomarkers = json.loads(raw_results_json)
     except Exception as e:
         print(f"Parsing error: {str(e)}")
-        # If it's a JSON decode error, log the raw text that failed
+        
+        # If it chokes on JSON parsing, it's helpful to see what string it was actually trying to parse
         if "JSON" in str(e):
              print(f"Failed to parse JSON. Raw output was: {raw_results_json}")
         raise HTTPException(status_code=422, detail=f"Neural synthesis failed: {str(e)}")
 
-    # 2. Contextualization (RAG) Phase
+    
+    # Step 2: Grab extra medical context from our local database for each marker found
     enriched_results = []
     clinical_context = ""
     
     for marker in biomarkers:
         context = rag_engine.query_marker(marker['name'])
         clinical_context += f"\n{context}"
-        
-        # Scoring Logic would go here in a more detailed implementation
-        # But we'll pass the context to Gemini for the "Zen" interpretation
         enriched_results.append({
             **marker,
             "context_found": len(context) > 0
         })
 
-    # 3. Interpretation Phase (Zen Agent)
+    # Step 3: Pass everything to Gemini to get a patient-friendly summary based on the context
     interpretation_json = gemini_service.interpret_results(biomarkers, clinical_context)
     
     try:
@@ -147,15 +147,11 @@ async def neutralize_lab(
     except:
         raise HTTPException(status_code=500, detail="Neural Core synthesis failed.")
 
-    # 4. Safety Guard (Watchdog) Phase
     final_response["patient_summary"] = watchdog.sanitize_output(final_response["patient_summary"])
     for result in final_response["results"]:
         result["insight"] = watchdog.sanitize_output(result["insight"])
         result["zen_context"] = watchdog.sanitize_output(result["zen_context"])
 
-    # 5. PII Shredding (Ephemeral Memory)
-    # The file content is not stored. The response is generated on-the-fly.
-    
     return final_response
 
 if __name__ == "__main__":

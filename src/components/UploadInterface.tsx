@@ -60,7 +60,7 @@ const UploadInterface: React.FC<UploadInterfaceProps> = ({ onNeutralize }) => {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-8 bg-surface relative overflow-hidden">
-      {/* Background Aura */}
+      {/* A nice glowing aura behind the upload zone to give it a futuristic feel */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       
       <motion.div
@@ -95,7 +95,7 @@ const UploadInterface: React.FC<UploadInterfaceProps> = ({ onNeutralize }) => {
             className="hidden" 
             accept=".pdf,.jpg,.jpeg,.png,.dicom"
           />
-          {/* Animated Dotted Border */}
+          {/* A custom SVg dotted border that marches along the edge when you drag a file over it */}
           <div className="absolute inset-0 pointer-events-none">
             <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
               <rect

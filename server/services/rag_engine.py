@@ -14,7 +14,7 @@ class ClinicalRAG:
         )
 
     def ingest_pdf(self, pdf_path):
-        """Extracts text from PDF and populates the vector store."""
+        """We take a clinical PDF, extract the text page by page, and store it in our brain so we can look it up later."""
         if not os.path.exists(pdf_path):
             raise FileNotFoundError(f"PDF not found at {pdf_path}")
 
@@ -29,7 +29,7 @@ class ClinicalRAG:
                 if not text:
                     continue
                 
-                # Split by lines to get specific marker data
+                # We want to grab specific rows for markers, so splitting by lines usually works best
                 lines = text.split('\n')
                 for j, line in enumerate(lines):
                     if len(line.strip()) < 10:
@@ -48,12 +48,12 @@ class ClinicalRAG:
         print("Ingestion complete.")
 
     def query_marker(self, marker_name: str, n_results: int = 3):
-        """Retrieves clinical context for a specific biomarker."""
+        """When we find a biomarker, we ask our database what it knows about it to provide context for the AI."""
         results = self.collection.query(
             query_texts=[marker_name],
             n_results=n_results
         )
         return results['documents'][0] if results['documents'] else []
 
-# Global instance
+# Export a single instance we can reuse across the app
 rag_engine = ClinicalRAG()

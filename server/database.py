@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+# We're keeping things simple for now with a local SQLite file to store our user profiles
 SQLALCHEMY_DATABASE_URL = "sqlite:///./clinical_zen.db"
 
 engine = create_engine(
