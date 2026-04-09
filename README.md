@@ -1,73 +1,128 @@
-# React + TypeScript + Vite
+# Don't Panic: Neural Clinical Dashboard 🧬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-19-blue.svg)](https://reactjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
+[![Gemini](https://img.shields.io/badge/AI-Google_Gemini-orange.svg)](https://ai.google.dev/)
+[![Chroma](https://img.shields.io/badge/Vector_DB-Chroma-purple.svg)](https://www.trychroma.com/)
 
-Currently, two official plugins are available:
+**Don't Panic** is a futuristic, highly polished clinical dashboard designed to demystify complex medical lab reports. Rather than overwhelming users with raw numbers and alarming medical jargon, it uses an advanced Retrieval-Augmented Generation (RAG) AI pipeline to extract data and present it in a calm, informative, and actionable "Zen" state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Clinical Dashboard UI Demo](https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1200)
 
-## React Compiler
+## ✨ Core Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Clinical Neutralization Pipeline:** Upload any clinical lab report (PDF or Image). The system extracts the biomarkers, cross-references them against a local ChromaDB clinical knowledge base, and outputs safe, normalized guidance.
+*   **"Zen" User Interface:** Medical data shouldn't induce anxiety. The UI leverages glassmorphism, fluid Framer Motion animations, and calming visual hierarchies to bring clarity to health data.
+*   **AI Interpretation:** Powered by Google Gemini and OpenRouter (DeepSeek), it translates technical terms ("Hyperlipidemia") into actionable, understandable insight ("Elevated LDL - Area for adjustment").
+*   **Dynamic Dashboard:** Automatically pinpoints the most volatile or important metrics to display prominently, alongside a custom-generated "Morning Routine Boost" based on your current health snapshot.
+*   **Secure Authentication:** End-to-End JWT authentication ensuring only you have access to your clinical profile.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Frontend:**
+*   [React 19](https://react.dev/)
+*   [Vite](https://vitejs.dev/)
+*   [TailwindCSS 3](https://tailwindcss.com/)
+*   [Framer Motion](https://www.framer.com/motion/)
+*   [Lucide Icons](https://lucide.dev/)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**Backend:**
+*   [FastAPI](https://fastapi.tiangolo.com/) (Python)
+*   [SQLAlchemy](https://www.sqlalchemy.org/) & SQLite (User Database)
+*   [ChromaDB](https://www.trychroma.com/) (Vector Database for RAG)
+*   [Google GenAI SDK](https://github.com/google/generative-ai-python)
+*   [pdfplumber](https://github.com/jsvine/pdfplumber) (Document Parsing)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🚀 Getting Started
+
+Follow these instructions to run the **Don't Panic** dashboard on your local machine.
+
+### Prerequisites
+*   Node.js (v18+)
+*   Python 3.10+
+*   A [Google Gemini API Key](https://aistudio.google.com/)
+*   An [OpenRouter API Key](https://openrouter.ai/)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Praveen3333P/Don-t-Panic--Clinical-Dashboard-powered-by-a-RAG-Model.git
+cd Don-t-Panic--Clinical-Dashboard-powered-by-a-RAG-Model
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Frontend Setup
+Install the required Node dependencies:
+```bash
+npm install
 ```
+
+### 3. Backend Setup
+Navigate to the `server/` directory and set up your Python virtual environment.
+
+```bash
+# Move into server directory
+cd server
+
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+# Windows:
+.\venv\Scripts\activate
+# Mac/Linux:
+# source venv/bin/activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+### 4. Environment Variables
+Inside the `server/` directory, create a `.env` file and add your credentials:
+
+```ini
+# server/.env
+GEMINI_API_KEY="your_gemini_api_key_here"
+OPENROUTER_API_KEY="your_openrouter_api_key_here"
+SECRET_KEY="a_super_secret_random_string_for_jwt_tokens"
+```
+
+### 5. Running the Application
+You will need two terminal windows to run both the frontend and the backend simultaneously.
+
+**Terminal 1 (Backend):**
+```bash
+cd server
+.\venv\Scripts\activate
+python -m uvicorn main:app --reload --port 8000
+```
+
+**Terminal 2 (Frontend):**
+```bash
+npm run dev
+```
+
+Open your browser and navigate to `http://localhost:5173`. 
+1. Create a "Neural Profile" by signing up.
+2. Log in.
+3. Upload a lab report (PDF/Image) to trigger the neutralization process.
+
+---
+
+## 🧠 How the AI Pipeline Works
+
+1.  **Ingestion:** The user uploads a lab report via the React UI.
+2.  **Extraction:** FastAPI routes the file to the `gemini_service.py`, which uses either `pdfplumber` (for PDFs) or Vision (for images) to construct a clean JSON array of all recognized biomarkers and their values.
+3.  **Retrieval (RAG):** The system passes each extracted biomarker through `rag_engine.py`, searching a local `chroma_db` vector store for established clinical context, reference ranges, and safety boundaries.
+4.  **Synthesis:** The extracted numbers and retrieved context are sent to the LLM (OpenRouter/DeepSeek/Gemini) with a strict "Zen Persona" system prompt. This ensures the output is informative, formatted accurately into our UI schema, and free of panic-inducing medical jargon.
+5.  **Render:** The React frontend consumes the finalized JSON and fluidly renders the highly customized dashboard for the user. 
+
+---
+
+## 🛡️ License
+
+This project is licensed under the MIT License.
+
+> **Disclaimer:** This application is for educational and demonstrative purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
