@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #0e1322;
+  --color-surface-low: #161b2b;
+  --color-surface-high: #25293a;
+  --color-surface-highest: #2f3445;
+  
+  --color-primary: #98fb98;
+  --color-primary-container: #037524;
+  
+  --color-secondary: #ffbf00;
+  --color-secondary-container: #5c4300;
+  
+  --color-on-surface: #dee1f7;
+  --color-on-surface-variant: #becab9;
+  
+  --color-outline-variant: rgba(63, 74, 61, 0.4);
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Berkeley Mono", "Roboto Mono", monospace;
+  
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-sans antialiased m-0 p-0 overflow-hidden;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface-highest/60 backdrop-blur-2xl border border-outline-variant rounded-xl;
+  }
+
+  .glass-dark {
+    @apply bg-surface-low/80 backdrop-blur-3xl border border-white/5 rounded-2xl;
+  }
+
+  .btn-primary {
+    @apply px-6 py-2 bg-linear-to-br from-primary to-primary-container text-surface font-semibold rounded-full 
+           hover:shadow-[0_0_20px_rgba(152,251,152,0.3)] transition-all duration-300 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2 border border-outline-variant text-on-surface rounded-full
+           hover:bg-primary/10 hover:border-primary/50 transition-all duration-300;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.95); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes rotation-march {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 24; }
+}
+
+.animate-march {
+  animation: rotation-march 1s linear infinite;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-primary/20 rounded-full hover:bg-primary/40 transition-colors;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(152, 251, 152, 0.2) transparent;
+}

@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pdfplumber
+chromadb
+google-genai
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt==4.3.0
+python-multipart
+sqlalchemy
+pydantic
+python-dotenv
+Pillow
