@@ -7,11 +7,11 @@
 
 **Don't Panic** is a futuristic, highly polished clinical dashboard designed to demystify complex medical lab reports. Rather than overwhelming users with raw numbers and alarming medical jargon, it uses an advanced Retrieval-Augmented Generation (RAG) AI pipeline to extract data and present it in a calm, informative, and actionable "Zen" state.
 
-![Dashboard View 1](./UI%20images/Screenshot%202026-04-09%20233218.png)
-![Dashboard View 2](./UI%20images/Screenshot%202026-04-09%20233342.png)
-![Dashboard View 3](./UI%20images/Screenshot%202026-04-09%20233422.png)
-![Dashboard View 4](./UI%20images/Screenshot%202026-04-09%20233552.png)
-![Dashboard View 5](./UI%20images/Screenshot%202026-04-09%20233622.png)
+![Dashboard View 1](./UI%20images/Home.png)
+![Dashboard View 2](./UI%20images/Uploading%20file.png)
+![Dashboard View 3](./UI%20images/rendering%20file.png)
+![Dashboard View 4](./UI%20images/results1.png)
+![Dashboard View 5](./UI%20images/results2.png)
 
 ## ✨ Core Features
 
