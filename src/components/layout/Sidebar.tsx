@@ -29,8 +29,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePhase, setActivePhase, isOpen, 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'upload', label: 'Clinical Intake', icon: FileUp },
-    { id: 'vitals', label: 'Vitals Sync', icon: Activity },
-    { id: 'privacy', label: 'Privacy Control', icon: ShieldCheck },
+    { id: 'vitals', label: 'Vitals Sync', icon: Activity, badge: 'Coming Soon' },
+    { id: 'privacy', label: 'Privacy Control', icon: ShieldCheck, badge: 'HIPAA Locked' },
   ];
 
   return (
@@ -83,7 +83,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePhase, setActivePhase, isOpen, 
                 "w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group",
                 activePhase === item.id 
                   ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_0_10px_rgba(152,251,152,0.05)]" 
-                  : "text-on-surface-variant hover:bg-white/5 hover:text-on-surface"
+                  : "text-on-surface-variant hover:bg-white/5 hover:text-on-surface",
+                item.badge && "cursor-default opacity-60 hover:bg-transparent hover:text-on-surface-variant"
               )}
             >
               <div className="flex items-center gap-3">
@@ -93,11 +94,15 @@ const Sidebar: React.FC<SidebarProps> = ({ activePhase, setActivePhase, isOpen, 
                 )} />
                 <span className="font-medium">{item.label}</span>
               </div>
-              {activePhase === item.id && (
+              {item.badge ? (
+                <span className="px-2 py-1 text-[9px] font-bold uppercase tracking-wider font-mono rounded-full bg-primary/10 text-primary border border-primary/20">
+                  {item.badge}
+                </span>
+              ) : activePhase === item.id ? (
                 <motion.div layoutId="active-indicator">
                   <ChevronRight className="w-4 h-4" />
                 </motion.div>
-              )}
+              ) : null}
             </button>
           ))}
         </nav>
