@@ -35,7 +35,3 @@ server/chroma_db/
 # Test artifacts
 server/laboratory-reference-ranges.pdf
 *.pdf
-
-# Local UI Screenshots
-UI images/
-"UI images/"
