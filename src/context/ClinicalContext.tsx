@@ -8,6 +8,9 @@ export interface MarkerResult {
   status: 'Green' | 'Amber' | 'Orange';
   insight: string;
   zen_context: string;
+  definition: string;
+  elevated_reason?: string;
+  maintenance_tip?: string;
 }
 
 export interface ClinicalData {

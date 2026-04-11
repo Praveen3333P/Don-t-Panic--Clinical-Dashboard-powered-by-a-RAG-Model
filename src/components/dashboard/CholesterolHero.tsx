@@ -74,14 +74,37 @@ const CholesterolHero: React.FC = () => {
         </ResponsiveContainer>
       </div>
 
-      <div className="flex items-center justify-between pt-6 border-t border-outline-variant">
-        <div className="flex items-center gap-2 text-secondary">
-          <TrendingUp className="w-4 h-4" />
-          <span className="text-sm font-medium">{marker?.zen_context || 'Awaiting analysis...'}</span>
+      <div className="flex flex-col pt-6 border-t border-outline-variant gap-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-secondary">
+            <TrendingUp className="w-4 h-4" />
+            <span className="text-sm font-medium line-clamp-1">{marker?.zen_context || 'Awaiting analysis...'}</span>
+          </div>
+          <button className="text-xs font-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap">
+            View Full Lipid Panel →
+          </button>
         </div>
-        <button className="text-xs font-mono uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors">
-          View Full Lipid Panel →
-        </button>
+        
+        {marker?.definition && (
+          <div className="p-3 bg-surface-low rounded-lg text-xs text-on-surface-variant border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1 text-on-surface">What is this?</p>
+            <p>{marker.definition}</p>
+          </div>
+        )}
+        
+        {marker?.status !== 'Green' && marker?.elevated_reason && (
+          <div className="p-3 bg-surface-low rounded-lg text-xs text-red-400 border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1">Why is it {marker.status === 'Orange' ? 'high' : 'off'}?</p>
+            <p>{marker.elevated_reason}</p>
+          </div>
+        )}
+        
+        {marker?.status === 'Green' && marker?.maintenance_tip && (
+          <div className="p-3 bg-surface-low rounded-lg text-xs text-primary border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1">How to maintain?</p>
+            <p>{marker.maintenance_tip}</p>
+          </div>
+        )}
       </div>
     </motion.div>
   );

@@ -8,6 +8,9 @@ interface MetricCardProps {
   unit: string;
   status: 'Green' | 'Amber' | 'Orange';
   insight?: string;
+  definition?: string;
+  elevated_reason?: string;
+  maintenance_tip?: string;
 }
 
 const iconMap: Record<string, React.ElementType> = {
@@ -47,7 +50,7 @@ function guessIcon(name: string): React.ElementType {
   return Activity;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ label, value, unit, status, insight }) => {
+const MetricCard: React.FC<MetricCardProps> = ({ label, value, unit, status, insight, definition, elevated_reason, maintenance_tip }) => {
   const Icon = guessIcon(label);
   const config = statusConfig[status] || statusConfig.Green;
   
@@ -72,7 +75,28 @@ const MetricCard: React.FC<MetricCardProps> = ({ label, value, unit, status, ins
           <span className="text-xs text-on-surface-variant font-medium">{unit}</span>
         </div>
         {insight && (
-          <p className="text-xs text-on-surface-variant mt-2 line-clamp-2">{insight}</p>
+          <p className="text-xs text-on-surface-variant mt-2 mb-2 line-clamp-2">{insight}</p>
+        )}
+        
+        {definition && (
+          <div className="mt-3 p-3 bg-surface-low rounded-lg text-xs text-on-surface-variant border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1 text-on-surface">What is this?</p>
+            <p>{definition}</p>
+          </div>
+        )}
+        
+        {status !== 'Green' && elevated_reason && (
+          <div className="mt-2 p-3 bg-surface-low rounded-lg text-xs text-red-400 border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1">Why is it {status === 'Orange' ? 'high' : 'off'}?</p>
+            <p>{elevated_reason}</p>
+          </div>
+        )}
+        
+        {status === 'Green' && maintenance_tip && (
+          <div className="mt-2 p-3 bg-surface-low rounded-lg text-xs text-primary border border-outline-variant/30">
+            <p className="font-medium text-[11px] uppercase tracking-wider mb-1">How to maintain?</p>
+            <p>{maintenance_tip}</p>
+          </div>
         )}
       </div>
     </motion.div>

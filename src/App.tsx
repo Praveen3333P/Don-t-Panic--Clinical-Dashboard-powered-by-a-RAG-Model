@@ -174,6 +174,9 @@ const App: React.FC = () => {
                           unit={marker.unit}
                           status={marker.status}
                           insight={marker.insight}
+                          definition={marker.definition}
+                          elevated_reason={marker.elevated_reason}
+                          maintenance_tip={marker.maintenance_tip}
                         />
                       ))
                     ) : (
@@ -203,6 +206,9 @@ const App: React.FC = () => {
                         unit={marker.unit}
                         status={marker.status}
                         insight={marker.insight}
+                        definition={marker.definition}
+                        elevated_reason={marker.elevated_reason}
+                        maintenance_tip={marker.maintenance_tip}
                       />
                     </motion.div>
                   ))}

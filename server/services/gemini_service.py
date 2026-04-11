@@ -110,6 +110,9 @@ class GeminiService:
         2. Use 'Neutralization' language. Instead of 'Abnormal,' use 'Out of typical range.' Instead of 'Risk,' use 'Area for adjustment.'
         3. Always look for the 'Why' behind a deviation (e.g., hydration, stress, recent exercise).
         4. Every response must end with: 'This synthesis is for informational purposes. Your physician remains the primary authority on your health.'
+        5. Provide a simple, 1-sentence, non-medical explanation of what the biomarker is in the 'definition' field.
+        6. If the status is Amber or Orange, provide a simple 1-sentence reason for why it might be elevated or out of range in 'elevated_reason'.
+        7. If the status is Green, provide a simple 1-sentence tip on how to maintain it in 'maintenance_tip'.
 
         Output Format: Return JSON matching this structure:
         {{
@@ -122,7 +125,10 @@ class GeminiService:
               "unit": "string",
               "status": "Green|Amber|Orange",
               "insight": "string",
-              "zen_context": "string"
+              "zen_context": "string",
+              "definition": "string",
+              "elevated_reason": "string (optional)",
+              "maintenance_tip": "string (optional)"
             }}
           ],
           "morning_routine_boost": "string"
